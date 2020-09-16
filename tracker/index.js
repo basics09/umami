@@ -74,7 +74,8 @@ import { removeTrailingSlash } from '../lib/url';
   };
 
   history.pushState = hook(history, 'pushState', handlePush);
-  history.replaceState = hook(history, 'replaceState', handlePush);
+  // Dont’t handle replaceState for handsiebdruckerei website
+  // history.replaceState = hook(history, 'replaceState', handlePush);
 
   /* Handle events */
 
