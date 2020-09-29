@@ -3,25 +3,32 @@ import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames';
 import Loading from 'components/common/Loading';
 import useFetch from 'hooks/useFetch';
-import { useDateRange } from 'hooks/useDateRange';
+import useDateRange from 'hooks/useDateRange';
 import { formatShortTime, formatNumber, formatLongNumber } from 'lib/format';
+import usePageQuery from 'hooks/usePageQuery';
 import MetricCard from './MetricCard';
 import styles from './MetricsBar.module.css';
 
-export default function MetricsBar({ websiteId, className }) {
-  const dateRange = useDateRange(websiteId);
+export default function MetricsBar({ websiteId, token, className }) {
+  const [dateRange] = useDateRange(websiteId);
   const { startDate, endDate, modified } = dateRange;
+  const [format, setFormat] = useState(true);
+  const {
+    query: { url },
+  } = usePageQuery();
+
   const { data } = useFetch(
     `/api/website/${websiteId}/metrics`,
     {
       start_at: +startDate,
       end_at: +endDate,
+      url,
+      token,
     },
     {
       update: [modified],
     },
   );
-  const [format, setFormat] = useState(true);
 
   const formatFunc = format ? formatLongNumber : formatNumber;
 

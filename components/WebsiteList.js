@@ -11,7 +11,7 @@ import styles from './WebsiteList.module.css';
 
 export default function WebsiteList({ userId }) {
   const router = useRouter();
-  const { data } = useFetch('/api/websites', { userId });
+  const { data } = useFetch('/api/websites', { user_id: userId });
 
   if (!data) {
     return null;
@@ -28,18 +28,13 @@ export default function WebsiteList({ userId }) {
         <EmptyPlaceholder
           msg={
             <FormattedMessage
-              id="placeholder.message.no-websites-configured"
+              id="message.no-websites-configured"
               defaultMessage="You don't have any websites configured."
             />
           }
         >
           <Button icon={<Arrow />} size="medium" onClick={() => router.push('/settings')}>
-            <div>
-              <FormattedMessage
-                id="placeholder.message.go-to-settings"
-                defaultMessage="Go to settings"
-              />
-            </div>
+            <FormattedMessage id="message.go-to-settings" defaultMessage="Go to settings" />
           </Button>
         </EmptyPlaceholder>
       )}
